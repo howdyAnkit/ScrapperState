@@ -15,6 +15,7 @@ async function getUSStates() {
     const labels = [
       'code',
       'capital',
+      'largest',
       'ratification',
       'population', 
       'total_area_miles',
@@ -25,10 +26,17 @@ async function getUSStates() {
       'water_area_km',
       'number_of_reps',
     ];
-    $row.find('td').each((i, element) => {
-      const $col = $(element);
-      const label = labels[i];
-      state[label] = $col.text().trim();
+    let offset = 0;
+    $row.find('td').each((j, col) => {
+      const $col = $(col);
+      const value = $col.text().trim();
+      if(j === 1 && $col.attr('colspan') === '2'){
+        const label = labels[j];
+        state[label] = value;
+        offset = 1;
+      }
+        const label =labels[ j + offset];
+        state[label] = value;
     });
     states.push(state);
   });
