@@ -29,7 +29,11 @@ async function getUSStates() {
     let offset = 0;
     $row.find('td').each((j, col) => {
       const $col = $(col);
-      const value = $col.text().trim();
+      let value = $col.text().trim();
+      const numValue = value.replace(/,/g, '');
+      if(!isNaN(numValue)){
+        value = numValue
+      }
       if(j === 1 && $col.attr('colspan') === '2'){
         const label = labels[j];
         state[label] = value;
