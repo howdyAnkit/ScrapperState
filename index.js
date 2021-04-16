@@ -11,8 +11,25 @@ async function getUSStates() {
   table.find('tbody tr').slice(2).each((i, element) => { //When we use each we get collection we dont get the jqyery collection
     const $row = $(element);  //we are going to take that element and turn into jquery colleection
     const state = {};
-    state.name = $row.find(`th a`)[0].text().trim();// we are using the propety which are built in to jquery instead of innerTextHtml we are using .text()
-    const columns = $row.find('td');
+    state.name = $row.find(`th a`).first().text().trim();// we are using the propety which are built in to jquery instead of innerTextHtml we are using .text()
+    const labels = [
+      'code',
+      'capital',
+      'ratification',
+      'population', 
+      'total_area_miles',
+      'total_area_km',
+      'land_area_miles',
+      'land_area_km',
+      'water_area_miles',
+      'water_area_km',
+      'number_of_reps',
+    ];
+    $row.find('td').each((i, element) => {
+      const $col = $(element);
+      const label = labels[i];
+      state[label] = $col.text().trim();
+    });
     states.push(state);
   });
   console.log(states);
